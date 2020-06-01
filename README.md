@@ -37,3 +37,16 @@ The solution must be built locally using Visual Studio 2019, or, using [Azure De
 #### Persisting Messages to Cosmos DB
 Optionally, records from the event hub can be persisted to Cosmos DB (SQL API) through Azure Stream Analytics.
 
+##### Create a Cosmos DB (SQL API) collection
+Choose a partition key 1) that will provide a wide range of possible values, and, 2) based on how data will be queried. Refer to [Partitioning in Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/partitioning-overview).
+
+##### Create a Stream Analytics instance
+Once created, define an input source using the event hub instance. Define an output target using Cosmos DB. Assuming the input is named eventhub-input and the output is named cosmosdb-output, below is an example stream analytics query:
+``` sql
+SELECT 
+    input.*
+INTO
+    [cosmosdb-output]
+FROM 
+    [eventhub-input] as input
+```
