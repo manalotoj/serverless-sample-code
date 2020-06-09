@@ -129,15 +129,14 @@ namespace DataGen.ConsoleApp
               // Create a new message to send to the queue.
               byte[] messageBody = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(deviceScanRequest));
               var message = new Message { Body = messageBody, ContentType = "text/plain" };
-              await queueClient.SendAsync(message);
               messages.Add(message);
               // Write the body of the message to the console.
               log.LogInformation($"added message to batch: {JsonConvert.SerializeObject(deviceScanRequest)}");
             }
 
-            // Send the message batch to the queue.            
-            await queueClient.SendAsync(messages);
+            // Send the message batch to the queue.
             log.LogInformation("Sending batch to queue");
+            await queueClient.SendAsync(messages);
           }
           if (i + 1 < iterations)
           {
